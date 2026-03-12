@@ -13,24 +13,25 @@ Route::post('login',[AuthController::class, 'login']);
 Route::middleware('auth:api')->group(function () {
 
     Route::get('me', [AuthController::class, 'me']);
-
-    // solo consulta: admin y usuario
+    
+    // listar productos
     Route::get('productos', [ProductoBaseController::class, 'index'])
-        ->middleware('role:admin,usuario');
+        ->middleware('role:admin,usuario,operador');
 
-    // crear producto: solo admin
-    Route::post('productos', [ProductoBaseController::class, 'store'])
-        ->middleware('role:admin');
-
-    // consultar producto por id: admin y usuario
+    // ver producto por id
     Route::get('productos/{id}', [ProductoBaseController::class, 'show'])
-        ->middleware('role:admin,usuario');
+        ->middleware('role:admin,usuario,operador');
 
-    // actualizar producto: solo admin
+    // crear producto
+    Route::post('productos', [ProductoBaseController::class, 'store'])
+        ->middleware('role:admin,operador');
+
+    // actualizar producto
     Route::put('productos/{id}', [ProductoBaseController::class, 'update'])
-        ->middleware('role:admin');
+        ->middleware('role:admin,operador');
 
-    // eliminar producto: solo admin
+    // eliminar producto
     Route::delete('productos/{id}', [ProductoBaseController::class, 'destroy'])
         ->middleware('role:admin');
+        
 });

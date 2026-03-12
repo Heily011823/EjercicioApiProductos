@@ -19,14 +19,17 @@ class ProductoBaseController extends BaseController
 
     public function store(Request $request){
 
-        $productos = Producto::create([
-            'nombre' => $request->input('nombre','Producto sin nombre'),
-            'precio' => $request->input('precio',0),
+        $validated = $request->validate([
+            'nombre' => 'required|string|max:100',
+            'precio' => 'required|numeric|min:0'
         ]);
+
+        $producto = Producto::create($validated);
 
         return response()->json([
             'message' => 'Producto creado correctamente',
-            'data'=> $productos,], 201);
+            'data'=> $producto,
+        ], 201);
     }
 
     public function show(String $id){
@@ -52,14 +55,17 @@ class ProductoBaseController extends BaseController
             'message' => "No se encontro el producto solicitado con id ($id)"], 404);
         }
 
-        $producto->update([
-            'nombre' => $request->input('nombre', $producto->nombre),
-            'precio' => $request->input('precio', $producto->precio),
+        $validated = $request->validate([
+            'nombre' => 'sometimes|string|max:100',
+            'precio' => 'sometimes|numeric|min:0'
         ]);
+
+        $producto->update($validated);
 
         return response()->json([
             'message' => "Producto con id ($id) actualizado correctamente",
-            'data'=> $producto]);
+            'data'=> $producto
+        ]);
     }
 
     public function destroy(String $id){

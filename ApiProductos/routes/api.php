@@ -19,5 +19,27 @@ Route::middleware('auth:api')->group(function () {
     //solo consulta: admin y usuario
     Route::get('productos', [ProductoBaseController::class, 'index'])->middleware('role:admin,usuario');
     Route::post('productos', [ProductoBaseController::class, 'store'])->middleware('role:admin');
+
+    /*
+    // listar productos
+    Route::get('productos', [ProductoBaseController::class, 'index'])
+        ->middleware('role:admin,usuario,operador');
+
+    // ver producto por id
+    Route::get('productos/{id}', [ProductoBaseController::class, 'show'])
+        ->middleware('role:admin,usuario,operador');
+
+    // crear producto
+    Route::post('productos', [ProductoBaseController::class, 'store'])
+        ->middleware('role:admin,operador');
+
+    // actualizar producto
+    Route::put('productos/{id}', [ProductoBaseController::class, 'update'])
+        ->middleware('role:admin,operador');
+
+    // eliminar producto
+    Route::delete('productos/{id}', [ProductoBaseController::class, 'destroy'])
+        ->middleware('role:admin');
+    */
 });
 

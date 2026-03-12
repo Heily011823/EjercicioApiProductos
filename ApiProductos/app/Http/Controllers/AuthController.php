@@ -35,4 +35,36 @@ class AuthController extends Controller
     public function me(){
         return response()->json(auth('api')->user());
     }
+
+    public function logout(Request $request)
+    {
+        try {
+            JWTAuth::invalidate(JWTAuth::getToken());
+
+            return response()->json([
+                'message' => 'Sesión cerrada correctamente'
+            ], 200);
+        } catch (JWTException $e) {
+            return response()->json([
+                'error' => 'No se pudo cerrar sesión'
+            ], 500);
+        }
+    }
+
+    public function refresh()
+    {
+        try {
+            $newToken = JWTAuth::refresh(JWTAuth::getToken());
+
+            return response()->json([
+                'message' => 'Token renovado correctamente',
+                'token' => $newToken,
+                'user' => auth('api')->user(),
+            ], 200);
+        } catch (JWTException $e) {
+            return response()->json([
+                'error' => 'No se pudo renovar el token'
+            ], 500);
+        }
+    }
 }

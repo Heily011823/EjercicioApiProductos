@@ -16,6 +16,10 @@ Route::middleware('auth:api')->group(function () {
 
     Route::get('me', [AuthController::class, 'me']);
 
+    // Logout y Refresh token
+    Route::post('logout', [AuthController::class, 'logout']);
+    Route::post('refresh', [AuthController::class, 'refresh']);
+
     //solo consulta: admin y usuario
     Route::get('productos', [ProductoBaseController::class, 'index'])->middleware('role:admin,usuario');
     Route::post('productos', [ProductoBaseController::class, 'store'])->middleware('role:admin');

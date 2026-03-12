@@ -16,11 +16,7 @@ Route::middleware('auth:api')->group(function () {
 
     Route::get('me', [AuthController::class, 'me']);
 
-    //solo consulta: admin y usuario
-    Route::get('productos', [ProductoBaseController::class, 'index'])->middleware('role:admin,usuario');
-    Route::post('productos', [ProductoBaseController::class, 'store'])->middleware('role:admin');
-
-    /*
+    
     // listar productos
     Route::get('productos', [ProductoBaseController::class, 'index'])
         ->middleware('role:admin,usuario,operador');
@@ -40,6 +36,6 @@ Route::middleware('auth:api')->group(function () {
     // eliminar producto
     Route::delete('productos/{id}', [ProductoBaseController::class, 'destroy'])
         ->middleware('role:admin');
-    */
+        
 });
 

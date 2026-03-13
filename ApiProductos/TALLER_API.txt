@@ -235,7 +235,7 @@ USUARIOS DE PRUEBA (ya creados por el Seeder)
   ROL ADMIN   : admin@api.com    / password
   ROL USUARIO : usuario@api.com  / password
 
-  El usuario operador deberá ser creado en el Punto 5.
+  El usuario operador deberá ser creado en el Punto 5..
 
 --------------------------------------------------------------------------------
 ENTREGABLES

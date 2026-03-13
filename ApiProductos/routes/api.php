@@ -8,6 +8,8 @@ use App\Http\Controllers\ProductoBaseController;
 
 // Publico
 Route::post('login',[AuthController::class, 'login']);
+Route::post('verify-code',[AuthController::class, 'verifyCode']);
+
 
 //Autenticadas
 Route::middleware('auth:api')->group(function () {

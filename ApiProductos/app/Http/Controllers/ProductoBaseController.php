@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 use App\Models\Producto;
+use Illuminate\Support\Facades\Mail;
 
 class ProductoBaseController extends BaseController
 {
@@ -46,6 +47,19 @@ class ProductoBaseController extends BaseController
         ]);
 
         $producto = Producto::create($validated);
+
+        //  Enviar correo cuando se crea un producto
+        Mail::raw(
+            "Se ha creado un nuevo producto.\n\n".
+            "Nombre: {$producto->nombre}\n".
+            "Precio: {$producto->precio}\n".
+            "Stock: {$producto->stock}\n".
+            "Descripción: {$producto->descripcion}",
+            function ($message) {
+                $message->to('heilyayala005@gmail.com')
+                        ->subject('Nuevo producto creado - ApiProductos');
+            }
+        );
 
         return response()->json([
             'message' => 'Producto creado correctamente',

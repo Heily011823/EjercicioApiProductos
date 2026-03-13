@@ -26,7 +26,7 @@ Route::middleware('auth:api')->group(function () {
 
     // Logout y Refresh token
     Route::post('logout', [AuthController::class, 'logout']);
-    Route::post('refresh', [AuthController::class, 'refresh']);
+    Route::post('refresh-token', [AuthController::class, 'refresh']);
 
     // crear producto
     Route::post('productos', [ProductoBaseController::class, 'store'])

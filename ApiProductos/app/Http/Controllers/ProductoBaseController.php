@@ -23,28 +23,27 @@ class ProductoBaseController extends BaseController
     public function store(Request $request){
 
         $validated = $request->validate(
-            [
-                'nombre' => 'required|string|max:100',
-                'precio' => 'required|numeric|min:0',
-                'stock' => 'required|integer|min:0',
-                'descripcion' => 'nullable|string'
-            ],
-            [
-                'nombre.required' => 'El nombre del producto es obligatorio',
-                'nombre.string' => 'El nombre debe ser un texto',
-                'nombre.max' => 'El nombre no puede tener más de 100 caracteres',
+        [
+            'nombre' => 'required|string|max:100',
+            'precio' => 'required|numeric|min:0',
+            'stock' => 'required|integer|min:0',
+            'descripcion' => 'nullable|string'
+        ],
+        [
+            'nombre.required' => 'El nombre del producto es obligatorio',
+            'nombre.string' => 'El nombre debe ser texto',
+            'nombre.max' => 'El nombre no puede tener más de 100 caracteres',
 
-                'precio.required' => 'El precio del producto es obligatorio',
-                'precio.numeric' => 'El precio debe ser un número',
-                'precio.min' => 'El precio no puede ser negativo',
+            'precio.required' => 'El precio es obligatorio',
+            'precio.numeric' => 'El precio debe ser un número',
+            'precio.min' => 'El precio no puede ser negativo',
 
-                'stock.required' => 'El stock es obligatorio',
-                'stock.integer' => 'El stock debe ser un número entero',
-                'stock.min' => 'El stock no puede ser negativo',
+            'stock.required' => 'El stock es obligatorio',
+            'stock.integer' => 'El stock debe ser un número entero',
+            'stock.min' => 'El stock no puede ser negativo',
 
-                'descripcion.string' => 'La descripción debe ser un texto'
-            ]
-        );
+            'descripcion.string' => 'La descripción debe ser texto'
+        ]);
 
         $producto = Producto::create($validated);
 
@@ -61,7 +60,7 @@ class ProductoBaseController extends BaseController
 
         if(!$producto){
             return response()->json([
-                'message' => "No se encontró el producto solicitado con id ($id)"
+                'message' => "No se encontro el producto solicitado con id ($id)"
             ], 404);
         }
 
@@ -78,30 +77,29 @@ class ProductoBaseController extends BaseController
 
         if(!$producto){
             return response()->json([
-                'message' => "No se encontró el producto solicitado con id ($id)"
+                'message' => "No se encontro el producto solicitado con id ($id)"
             ], 404);
         }
 
         $validated = $request->validate(
-            [
-                'nombre' => 'sometimes|string|max:100',
-                'precio' => 'sometimes|numeric|min:0',
-                'stock' => 'sometimes|integer|min:0',
-                'descripcion' => 'sometimes|nullable|string'
-            ],
-            [
-                'nombre.string' => 'El nombre debe ser un texto',
-                'nombre.max' => 'El nombre no puede tener más de 100 caracteres',
+        [
+            'nombre' => 'sometimes|string|max:100',
+            'precio' => 'sometimes|numeric|min:0',
+            'stock' => 'sometimes|integer|min:0',
+            'descripcion' => 'sometimes|nullable|string'
+        ],
+        [
+            'nombre.string' => 'El nombre debe ser texto',
+            'nombre.max' => 'El nombre no puede tener más de 100 caracteres',
 
-                'precio.numeric' => 'El precio debe ser un número',
-                'precio.min' => 'El precio no puede ser negativo',
+            'precio.numeric' => 'El precio debe ser un número',
+            'precio.min' => 'El precio no puede ser negativo',
 
-                'stock.integer' => 'El stock debe ser un número entero',
-                'stock.min' => 'El stock no puede ser negativo',
+            'stock.integer' => 'El stock debe ser un número entero',
+            'stock.min' => 'El stock no puede ser negativo',
 
-                'descripcion.string' => 'La descripción debe ser un texto'
-            ]
-        );
+            'descripcion.string' => 'La descripción debe ser texto'
+        ]);
 
         $producto->update($validated);
 
@@ -118,7 +116,7 @@ class ProductoBaseController extends BaseController
 
         if(!$producto){
             return response()->json([
-                'message' => "No se encontró el producto solicitado con id ($id)"
+                'message' => "No se encontro el producto solicitado con id ($id)"
             ], 404);
         }
 

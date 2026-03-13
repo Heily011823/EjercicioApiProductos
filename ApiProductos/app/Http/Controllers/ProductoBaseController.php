@@ -18,11 +18,21 @@ class ProductoBaseController extends BaseController
     }
 
     public function store(Request $request){
+        $validated = $request->validate(
+            [
+                'nombre' => 'required|string|max:100',
+                'precio' => 'required|numeric|min:0'
+            ],
+            [
+                'nombre.required' => 'El nombre del producto es obligatorio',
+                'nombre.string' => 'El nombre debe ser un texto',
+                'nombre.max' => 'El nombre no puede tener más de 100 caracteres',
 
-        $validated = $request->validate([
-            'nombre' => 'required|string|max:100',
-            'precio' => 'required|numeric|min:0'
-        ]);
+                'precio.required' => 'El precio del producto es obligatorio',
+                'precio.numeric' => 'El precio debe ser un número',
+                'precio.min' => 'El precio no puede ser negativo'
+            ]
+        );
 
         $producto = Producto::create($validated);
 
@@ -50,15 +60,24 @@ class ProductoBaseController extends BaseController
 
         $producto = Producto::find($id);
 
-         if(!$producto){
+        if(!$producto){
             return response()->json([
             'message' => "No se encontro el producto solicitado con id ($id)"], 404);
         }
 
-        $validated = $request->validate([
-            'nombre' => 'sometimes|string|max:100',
-            'precio' => 'sometimes|numeric|min:0'
-        ]);
+        $validated = $request->validate(
+            [
+                'nombre' => 'sometimes|string|max:100',
+                'precio' => 'sometimes|numeric|min:0'
+            ],
+            [
+                'nombre.string' => 'El nombre debe ser un texto',
+                'nombre.max' => 'El nombre no puede tener más de 100 caracteres',
+
+                'precio.numeric' => 'El precio debe ser un número',
+                'precio.min' => 'El precio no puede ser negativo'
+            ]
+        );
 
         $producto->update($validated);
 

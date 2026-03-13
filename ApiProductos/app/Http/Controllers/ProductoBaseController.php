@@ -8,20 +8,26 @@ use App\Models\Producto;
 
 class ProductoBaseController extends BaseController
 {
+
     public function index(){
 
         $productos = Producto::all();
 
-         return response()->json([
+        return response()->json([
             'message'=> 'Listado de todos los productos',
-            'data'=> $productos,]);
+            'data'=> $productos
+        ]);
     }
 
+
     public function store(Request $request){
+
         $validated = $request->validate(
             [
                 'nombre' => 'required|string|max:100',
-                'precio' => 'required|numeric|min:0'
+                'precio' => 'required|numeric|min:0',
+                'stock' => 'required|integer|min:0',
+                'descripcion' => 'nullable|string'
             ],
             [
                 'nombre.required' => 'El nombre del producto es obligatorio',
@@ -30,7 +36,13 @@ class ProductoBaseController extends BaseController
 
                 'precio.required' => 'El precio del producto es obligatorio',
                 'precio.numeric' => 'El precio debe ser un número',
-                'precio.min' => 'El precio no puede ser negativo'
+                'precio.min' => 'El precio no puede ser negativo',
+
+                'stock.required' => 'El stock es obligatorio',
+                'stock.integer' => 'El stock debe ser un número entero',
+                'stock.min' => 'El stock no puede ser negativo',
+
+                'descripcion.string' => 'La descripción debe ser un texto'
             ]
         );
 
@@ -42,40 +54,52 @@ class ProductoBaseController extends BaseController
         ], 201);
     }
 
-    public function show(String $id){
+
+    public function show(string $id){
 
         $producto = Producto::find($id);
 
         if(!$producto){
             return response()->json([
-            'message' => "No se encontro el producto solicitado con id ($id)"], 404);
+                'message' => "No se encontró el producto solicitado con id ($id)"
+            ], 404);
         }
 
         return response()->json([
             'message' => "Producto encontrado con id ($id)",
-            'data'=> $producto]);
+            'data'=> $producto
+        ]);
     }
 
-    public function update(Request $request, String $id){
+
+    public function update(Request $request, string $id){
 
         $producto = Producto::find($id);
 
         if(!$producto){
             return response()->json([
-            'message' => "No se encontro el producto solicitado con id ($id)"], 404);
+                'message' => "No se encontró el producto solicitado con id ($id)"
+            ], 404);
         }
 
         $validated = $request->validate(
             [
                 'nombre' => 'sometimes|string|max:100',
-                'precio' => 'sometimes|numeric|min:0'
+                'precio' => 'sometimes|numeric|min:0',
+                'stock' => 'sometimes|integer|min:0',
+                'descripcion' => 'sometimes|nullable|string'
             ],
             [
                 'nombre.string' => 'El nombre debe ser un texto',
                 'nombre.max' => 'El nombre no puede tener más de 100 caracteres',
 
                 'precio.numeric' => 'El precio debe ser un número',
-                'precio.min' => 'El precio no puede ser negativo'
+                'precio.min' => 'El precio no puede ser negativo',
+
+                'stock.integer' => 'El stock debe ser un número entero',
+                'stock.min' => 'El stock no puede ser negativo',
+
+                'descripcion.string' => 'La descripción debe ser un texto'
             ]
         );
 
@@ -87,21 +111,22 @@ class ProductoBaseController extends BaseController
         ]);
     }
 
-    public function destroy(String $id){
+
+    public function destroy(string $id){
 
         $producto = Producto::find($id);
 
-         if(!$producto){
+        if(!$producto){
             return response()->json([
-            'message' => "No se encontro el producto solicitado con id ($id)"], 404);
+                'message' => "No se encontró el producto solicitado con id ($id)"
+            ], 404);
         }
 
         $producto->delete();
 
         return response()->json([
-            'message' => "Producto con id ($id) ha sido eliminado"]);
+            'message' => "Producto con id ($id) ha sido eliminado"
+        ]);
     }
-
-
 
 }
